@@ -1,0 +1,52 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de senhas fortes</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Gerador de senhas</h1>
+    <p>Bem vindo ao gerador de senhas fortes. Monte sua senha conforme desejar com base nos itens abaixo.</p>
+    <input type="text" name="password" id="password" />
+    <input type="range" name="password-length" id="password-length" value="16" min="4" max="64"/>
+    <button id="copy">Copiar senha</button>
+
+    <script>
+        let passwordLength = 16
+        const inputEl = document.querySelector("#password")
+
+        //função para gerar a senha
+        function generatePassword () {
+            const chars = "abcdefghjklmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789?!@&*(){[]"
+            let password = ""
+            for (let i = 0; i < passwordLength; i++){
+                const randomNumber = Math.floor(Math.random() * chars.length)
+                password += chars.substring(randomNumber, randomNumber + 1)
+            }
+
+            inputEl.value = password
+        }
+
+        //função para copiar a senha para ClipBoard
+        function copy(){
+            navigator.clipboard.writeText(inputEl.value)
+        }
+
+        //função para escutar o input range e gerar a senha conforme o tamanho
+        const passwordLengthEl = document.querySelector("#password-length")
+        passwordLengthEl.addEventListener("input", function(){
+            passwordLength = passwordLengthEl.value
+            generatePassword()
+        })
+
+        //função para esecutar a cópia a partir do click no botão
+        const copyButtonEl = document.querySelector("#copy")
+        copyButtonEl.addEventListener("click", copy)
+
+        generatePassword()
+
+    </script>
+</body>
+</html>
